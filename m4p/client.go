@@ -67,7 +67,7 @@ func Dial(ctx context.Context, addr string, opts ...DialOption) (*Client, error)
 		conn:            conn,
 		opts:            o,
 		serverKeepalive: make(chan struct{}, 1),
-		recvBuf:         make(chan Message, 10), // Buffer up to 10 messages after which we block.
+		recvBuf:         make(chan Message, 10), // Buffer up to 10 messages after which we discard them.
 	}
 
 	// Register our client with the server.
