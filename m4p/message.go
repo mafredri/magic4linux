@@ -3,6 +3,7 @@ package m4p
 import (
 	"bytes"
 	"encoding/json"
+	"log"
 )
 
 type MessageType string
@@ -102,6 +103,7 @@ func decode(b []byte) (Message, error) {
 	dec := json.NewDecoder(bytes.NewReader(b))
 	dec.DisallowUnknownFields()
 	if err := dec.Decode(&m); err != nil {
+		log.Printf("m4p: decode: bad data: %s", b)
 		return Message{}, err
 	}
 
