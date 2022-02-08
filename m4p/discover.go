@@ -1,6 +1,7 @@
 package m4p
 
 import (
+	"errors"
 	"log"
 	"net"
 )
@@ -37,6 +38,10 @@ func (d *Discoverer) discover() {
 	for {
 		n, addr, err := d.ln.ReadFromUDP(buf[:])
 		if err != nil {
+			if errors.Is(err, net.ErrClosed) {
+				log.Printf("m4p: Discoverer: discover: connection closed: %v", err)
+				return
+			}
 			log.Printf("m4p: Discoverer: discover: read udp packet failed: %v", err)
 			continue
 		}

@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/hex"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"log"
 	"net"
@@ -102,6 +103,10 @@ recvLoop:
 
 		n, err := c.conn.Read(buf[:])
 		if err != nil {
+			if errors.Is(err, net.ErrClosed) {
+				log.Printf("m4p: Client: recv: connection closed: %v", err)
+				return
+			}
 			log.Printf("m4p: Client: recv: read udp packet failed: %v", err)
 			continue
 		}
@@ -163,6 +168,10 @@ func (c *Client) keepalive() {
 		case <-clientKeepalive:
 			_, err := c.conn.Write([]byte("{}"))
 			if err != nil {
+				if errors.Is(err, net.ErrClosed) {
+					log.Printf("m4p: Client: keepalive: connection closed: %v", err)
+					return
+				}
 				log.Printf("m4p: Client: keepalive: send client keepalive failed, disconnecting...")
 				return
 			}
