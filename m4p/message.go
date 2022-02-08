@@ -13,6 +13,8 @@ const (
 	SubSensorMessage    MessageType = "sub_sensor"
 	RemoteUpdateMessage MessageType = "remote_update"
 	InputMessage        MessageType = "input"
+	MouseMessage        MessageType = "mouse"
+	WheelMessage        MessageType = "wheel"
 	KeepAliveMessage    MessageType = "keepalive"
 )
 
@@ -24,6 +26,8 @@ type Message struct {
 	*Register
 	*RemoteUpdate
 	*Input
+	Mouse Mouse `json:"mouse"`
+	Wheel Wheel `json:"wheel"`
 }
 
 // NewMessage initializes a message with the type and protocol version.
@@ -62,10 +66,24 @@ type RemoteUpdate struct {
 	Payload []byte `json:"payload"`
 }
 
+type Coordinates struct {
+	X int32 `json:"x"`
+	Y int32 `json:"y"`
+}
+
+type Mouse struct {
+	Type string `json:"type"` // mousedown, mouseup
+	Coordinates
+}
+
+type Wheel struct {
+	Delta int32 `json:"delta"`
+	Coordinates
+}
+
 // type (
 // 	ReturnValue  uint8
 // 	DeviceID     uint8
-// 	Coordinates  struct{ X, Y int32 }
 // 	Gyroscope    struct{ X, Y, Z float32 }
 // 	Acceleration struct{ X, Y, Z float32 }
 // 	Quaternion   struct{ Q0, Q1, Q2, Q3 float32 }

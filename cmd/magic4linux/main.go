@@ -36,6 +36,12 @@ func run(ctx context.Context) error {
 	}
 	defer kbd.Close()
 
+	mouse, err := uinput.CreateMouse("/dev/uinput", []byte("magic4linux-mouse"))
+	if err != nil {
+		return err
+	}
+	defer mouse.Close()
+
 	tp, err := uinput.CreateTouchPad("/dev/uinput", []byte("magic4linux-touchpad"), 0, 1920, 0, 1080)
 	if err != nil {
 		return err
@@ -54,7 +60,7 @@ func run(ctx context.Context) error {
 			return nil
 
 		case dev := <-d.NextDevice():
-			err = connect(ctx, dev, kbd, tp)
+			err = connect(ctx, dev, kbd, mouse, tp)
 			if err != nil {
 				log.Printf("connect: %v", err)
 			}
@@ -62,7 +68,7 @@ func run(ctx context.Context) error {
 	}
 }
 
-func connect(ctx context.Context, dev m4p.DeviceInfo, kbd uinput.Keyboard, tp uinput.TouchPad) error {
+func connect(ctx context.Context, dev m4p.DeviceInfo, kbd uinput.Keyboard, mouse uinput.Mouse, tp uinput.TouchPad) error {
 	addr := fmt.Sprintf("%s:%d", dev.IPAddr, dev.Port)
 	log.Printf("connect: connecting to: %s", addr)
 
@@ -160,10 +166,21 @@ func connect(ctx context.Context, dev m4p.DeviceInfo, kbd uinput.Keyboard, tp ui
 
 			x := coordinate[0]
 			y := coordinate[1]
-			fmt.Println("Move mouse", x, y)
+			// fmt.Println("Move mouse", x, y)
 			tp.MoveTo(x, y)
 
 			// log.Printf("connect: %d %d %#v %#v %#v %#v", returnValue, deviceID, coordinate, gyroscope, acceleration, quaternion)
+
+		case m4p.MouseMessage:
+			switch m.Mouse.Type {
+			case "mousedown":
+				tp.LeftPress()
+			case "mouseup":
+				tp.LeftRelease()
+			}
+
+		case m4p.WheelMessage:
+			mouse.Wheel(false, m.Wheel.Delta)
 
 		default:
 		}

@@ -2,7 +2,6 @@ package m4p
 
 import (
 	"context"
-	"encoding/hex"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -132,8 +131,14 @@ recvLoop:
 		case InputMessage:
 			log.Printf("m4p: Client: recv: got %s: %v", m.Type, m.Input)
 
+		case MouseMessage:
+			log.Printf("m4p: Client: recv: got %s: %v", m.Type, m.Mouse)
+
+		case WheelMessage:
+			log.Printf("m4p: Client: recv: got %s: %v", m.Type, m.Wheel)
+
 		case RemoteUpdateMessage:
-			log.Printf("m4p: Client: recv: got %s: %s", m.Type, hex.EncodeToString(m.RemoteUpdate.Payload))
+			// log.Printf("m4p: Client: recv: got %s: %s", m.Type, hex.EncodeToString(m.RemoteUpdate.Payload))
 
 		default:
 			log.Printf("m4p: Client: recv: unknown message: %s", m.Type)
