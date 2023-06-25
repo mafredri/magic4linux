@@ -1,2 +1,2 @@
-github.com/mafredri/uinput v1.5.1-0.20220207175943-22c283e0bb09 h1:FzGMDvWmcWhrKvPhOBMymBNz7/YOomRrIpiOn2N5rYA=
-github.com/mafredri/uinput v1.5.1-0.20220207175943-22c283e0bb09/go.mod h1:Np7w3DINc9wB83p12fTAM3DPPhFnAKP0WTXRqCQJ6Z8=
+github.com/bendahl/uinput v1.6.2 h1:tIz52QyKDx1i1nObUkts3AZa/bULfLhPA5a+xKGlRPI=
+github.com/bendahl/uinput v1.6.2/go.mod h1:Np7w3DINc9wB83p12fTAM3DPPhFnAKP0WTXRqCQJ6Z8=
