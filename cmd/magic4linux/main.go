@@ -110,21 +110,21 @@ func connect(ctx context.Context, dev m4p.DeviceInfo, kbd uinput.Keyboard, mouse
 			case m4p.Key1:
 				key = uinput.Key1
 			case m4p.Key2:
-				key = uinput.Key1
+				key = uinput.Key2
 			case m4p.Key3:
-				key = uinput.Key1
+				key = uinput.Key3
 			case m4p.Key4:
-				key = uinput.Key1
+				key = uinput.Key4
 			case m4p.Key5:
-				key = uinput.Key1
+				key = uinput.Key5
 			case m4p.Key6:
-				key = uinput.Key1
+				key = uinput.Key6
 			case m4p.Key7:
-				key = uinput.Key1
+				key = uinput.Key7
 			case m4p.Key8:
-				key = uinput.Key1
+				key = uinput.Key8
 			case m4p.Key9:
-				key = uinput.Key1
+				key = uinput.Key9
 			case m4p.KeyRed:
 				key = uinput.KeyStop
 			case m4p.KeyGreen:
